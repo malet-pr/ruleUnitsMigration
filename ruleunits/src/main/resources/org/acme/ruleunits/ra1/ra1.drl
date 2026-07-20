@@ -1,0 +1,50 @@
+package org.acme.ruleunits.ra1;
+unit Ra1Unit;
+
+import org.acme.ruleunits.action.DeactivateActivityCategory;
+import org.acme.ruleunits.action.ReplaceActivity;
+import org.acme.ruleunits.domain.WorkOrderEvaluation;
+import org.acme.ruleunits.domain.WorkOrderType;
+
+rule "RA1-test-1"
+when
+    WorkOrderEvaluation(
+        workOrderType == WorkOrderType.FINAL,
+        activeActivityCodes contains "6T8121",
+        activeActivityCodes contains "L81494"
+    ) from entry-point "workOrders"
+then
+    actions.add(new ReplaceActivity("L81494", "097079", "RA1", "RA1-test-1"));
+end
+
+rule "RA1-test-1-2"
+when
+    WorkOrderEvaluation(
+        workOrderType == WorkOrderType.FINAL,
+        activeActivityCodes contains "DS7068",
+        activeActivityCodes contains "KO6502"
+    ) from entry-point "workOrders"
+then
+    actions.add(new ReplaceActivity("KO6502", "SS8192", "RA1", "RA1-test-1-2"));
+end
+
+rule "RA1-test-1-3"
+when
+    WorkOrderEvaluation(
+        workOrderType == WorkOrderType.FINAL,
+        activeActivityCodes contains "DS7068",
+        activeActivityCodes contains "G99427"
+    ) from entry-point "workOrders"
+then
+    actions.add(new ReplaceActivity("G99427", "Q79984", "RA1", "RA1-test-1-3"));
+end
+
+rule "RA1-test-2"
+when
+    WorkOrderEvaluation(
+        jobType == "FM3X635",
+        activeActivityCategories contains "CAT2"
+    ) from entry-point "workOrders"
+then
+    actions.add(new DeactivateActivityCategory("CAT2", "RA1", "RA1-test-2"));
+end

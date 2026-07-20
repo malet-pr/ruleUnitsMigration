@@ -1,0 +1,8 @@
+package {{package}};
+unit {{unit}};
+
+import org.acme.ruleunits.action.ReplaceActivity;
+import org.acme.ruleunits.domain.WorkOrderEvaluation;
+import org.acme.ruleunits.domain.WorkOrderType;
+
+{{rules}}

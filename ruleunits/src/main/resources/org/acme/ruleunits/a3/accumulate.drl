@@ -1,0 +1,20 @@
+package org.acme.ruleunits.a3;
+unit AccumulateUnit;
+
+import java.util.List;
+import org.acme.ruleunits.action.DeactivateActivitiesExceptOne;
+import org.acme.ruleunits.domain.WorkOrderEvaluation;
+
+rule "withAccumulate"
+when
+    WorkOrderEvaluation(
+        $activities : activeActivityCodes
+    ) from entry-point "workOrders"
+    List(size > 1) from accumulate(
+        String(this == "FG2802") from $activities;
+        collectList()
+    )
+then
+    actions.add(new DeactivateActivitiesExceptOne(
+        "FG2802", "A3", "withAccumulate"));
+end

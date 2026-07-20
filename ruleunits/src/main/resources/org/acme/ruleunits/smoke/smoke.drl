@@ -1,0 +1,8 @@
+package org.acme.ruleunits.smoke;
+unit SmokeUnit;
+rule "smoke"
+when
+ SmokeMessage(value == "ping") from entry-point "messages"
+then
+ results.add("pong");
+end

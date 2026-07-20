@@ -1,0 +1,17 @@
+package org.acme.ruleunits.ra3;
+unit Ra3Unit;
+
+import org.acme.ruleunits.action.AddActivity;
+import org.acme.ruleunits.action.DeactivateAllActivities;
+import org.acme.ruleunits.domain.WorkOrderEvaluation;
+
+rule "RA3-test-1"
+when
+    WorkOrderEvaluation(
+        jobType == "JM5G513",
+        activeActivityCategories contains "CAT3"
+    ) from entry-point "workOrders"
+then
+    actions.add(new DeactivateAllActivities("RA3", "RA3-test-1"));
+    actions.add(new AddActivity("AZ9593", "RA3", "RA3-test-1"));
+end
