@@ -2,15 +2,51 @@
 
 ## Hackathon summary
 
-### What problem was investigated?
+### Problem investigated
 
-This project investigates the factibility of migrating a small fraction of a legacy rules engine service built with Java 11 and Drools 7 to a new engine in Java 21 and Drools 10.
+RuleBridge investigates the feasibility of migrating a small, representative
+portion of a legacy rules-engine service from Java 11 and Drools 7 to Java 21
+and Drools 10 while preserving its observed behavior.
 
-### What did Codex migrate?
+The proprietary legacy baseline used during characterization is not included in
+this public repository. The repository contains the migrated implementation,
+independently created rules, synthetic data, tests, and reproducible development
+infrastructure.
 
-Codex analyzed the legacy project, created characterization tests, and build a patht to migrate the project from its original build: Java 11, Spring Boot 2.7.10, Maven 3.9.16, Drools/KIE 7.48.0.Final, and Oracle XE 21c; to a new project built with: Java 21, Spring Boot 3.5.10, Maven 3.9.16,Drools 10.2.0, and Testcontainers with an Oracle XE 21c database.
-Codex also found a defect in the original project and was asked to solve a second defect found recently by the team. It solved both in the migrated application.
-Codex recommendation by the end of the experiment was not to perform this migration in one step. The recommended first production migration is therefore Java 21 and Drools 10 using traditional DRL with conventional KIE sessions. Rule Units should be reconsidered after that migration is stable and the operational requirements exposed by this experiment can be addressed deliberately.
+### What Codex migrated
+
+Codex analyzed the reduced legacy baseline, created characterization tests, and
+developed an incremental migration path from Java 11, Spring Boot 2.7.10,
+Drools/KIE 7.48.0.Final, Maven 3.9.16, and Oracle XE 21c to Java 21,
+Spring Boot 3.5.10, Drools 10.2.0, Maven 3.9.16, and Oracle XE 21c through
+Testcontainers.
+
+The migration was then implemented in 19 human-reviewed steps. Codex also
+identified and corrected one defect during its analysis previous revision and approval from the human developer. Codex also corrected another known behavioral defect in the migrated application.
+
+Codex implemented the migrated service, database schema, and a 104-test unit and integration suite, and documented most of the resulting code and operational workflow. Codex wrote the detailed technical runbook and endpoint documentation in this README based on priorities and constraints provided by the human developer.
+
+RuleBridge successfully migrated the selected legacy behavior to KIE Rule Units. The completed prototype then demonstrated that adopting Rule Units in the same production step as the Java and Drools upgrade would create too many simultaneous changes and exposed enough complexity and operational risk to support a different production recommendation.. The recommended production path is therefore incremental: first migrate to Java 21 and Drools 10 using conventional KIE sessions, stabilize that platform, and evaluate Rule Units in a later phase.
+
+
+### ChatGPT participation
+
+Before the hackathon, ChatGPT helped define a realistic experimental scope and
+assisted with SQL scripts for generating synthetic data.
+
+During the hackathon, ChatGPT acted as a discussion partner for architecture,
+testing strategy, submission planning, and review of Codex's proposed changes.
+It did not directly modify the repository.
+
+### Human participation
+
+The human developer selected the scope, reviewed all architectural and behavioral
+decisions, validated characterization outcomes, approved each migration step,
+identified unacceptable semantic changes, and decided which Codex recommendations
+to accept, reject, or revise.
+
+Codex produced analysis, tests, implementation changes, and documentation, but
+the migration contract and final engineering decisions remained human-controlled.
 
 ## How to run
 
@@ -67,20 +103,6 @@ generated datasource settings authoritative, so stale `SPRING_DATASOURCE_*`
 variables cannot redirect it to the prepared legacy database. That database is
 not contacted or modified.
 
-### Running against another Oracle instance
-
-The hackathon verification path uses the repository-provided local Oracle setup.
-
-RuleBridge can also connect to another compatible Oracle instance by overriding the standard Spring datasource environment variables:
-
-```bash
-export SPRING_DATASOURCE_URL='jdbc:oracle:thin:@localhost:1525/XEPDB1'
-export SPRING_DATASOURCE_USERNAME='<username>'
-export SPRING_DATASOURCE_PASSWORD='<password>'
-export SPRING_JPA_HIBERNATE_DDL_AUTO='none'
-
-cd ruleunits
-./mvnw spring-boot:run
 
 ### Refresh rules
 
