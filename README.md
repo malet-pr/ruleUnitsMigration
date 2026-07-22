@@ -1,10 +1,10 @@
-# RuleBridge
+# RuleMigration
 
 ## Hackathon summary
 
 ### Problem investigated
 
-RuleBridge investigates the feasibility of migrating a small, representative
+RuleMigration investigates the feasibility of migrating a small, representative
 portion of a legacy rules-engine service from Java 11 and Drools 7 to Java 21
 and Drools 10 while preserving its observed behavior.
 
@@ -26,7 +26,7 @@ identified and corrected one defect during its analysis previous revision and ap
 
 Codex implemented the migrated service, database schema, and a 104-test unit and integration suite, and documented most of the resulting code and operational workflow. Codex wrote the detailed technical runbook and endpoint documentation in this README based on priorities and constraints provided by the human developer.
 
-RuleBridge successfully migrated the selected legacy behavior to KIE Rule Units. The completed prototype then demonstrated that adopting Rule Units in the same production step as the Java and Drools upgrade would create too many simultaneous changes and exposed enough complexity and operational risk to support a different production recommendation.. The recommended production path is therefore incremental: first migrate to Java 21 and Drools 10 using conventional KIE sessions, stabilize that platform, and evaluate Rule Units in a later phase.
+RuleMigration successfully migrated the selected legacy behavior to KIE Rule Units. The completed prototype then demonstrated that adopting Rule Units in the same production step as the Java and Drools upgrade would create too many simultaneous changes and exposed enough complexity and operational risk to support a different production recommendation.. The recommended production path is therefore incremental: first migrate to Java 21 and Drools 10 using conventional KIE sessions, stabilize that platform, and evaluate Rule Units in a later phase.
 
 
 ### ChatGPT participation
@@ -146,7 +146,7 @@ Actuator security policy.
 
 The mutating work-order endpoint is disabled by default. The local Testcontainers
 launcher enables it; for an external Oracle launch, the
-`RULEBRIDGE_RULES_EXECUTION_ENDPOINT_ENABLED=true` setting above does so.
+`RuleMigration_RULES_EXECUTION_ENDPOINT_ENABLED=true` setting above does so.
 The configured group code defaults to `A`; the controller itself does not
 hardcode that value, so additional group executors can be registered later.
 
